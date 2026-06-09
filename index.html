@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李泽雄 - 个人简介</title>
+    <style>
+        /* ========== 风格改动：黑白极简主义基础 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: '华文楷书', 'STKaiti', '楷体', 'KaiTi', serif; /* 改为楷体 */
+            background: #000000; /* 纯黑背景 */
+            color: #FFFFFF; /* 纯白文字 */
+            overflow-x: hidden;
+            overflow-y: scroll;
+            cursor: crosshair; /* 非常规光标 */
+            position: relative;
+        }
+
+        /* ========== 新增：AI意识背景层 ========== */
+        #aiBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #000000;
+        }
+
+        /* ========== 风格改动：滚动容器替代分页 ========== */
+        .scroll-container {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* 区域1：自我介绍（超大动态字体 + 打破网格） ========== */
+        .intro-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 5vw;
+            overflow: hidden;
+            background: #000000; /* 改动：最底层黑色背景 */
+            color: #FFFFFF; /* 改动：白色文字 */
+        }
+
+        /* 改动：新增白色中间层 */
+        .intro-section::before {
+            content: '';
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            width: 85%;
+            height: 75%;
+            background: rgba(255, 255, 255, 0.15);
+            z-index: 1;
+            transform: rotate(-2deg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .intro-content {
+            position: absolute;
+            top: 12vh;
+            left: 10vw;
+            z-index: 2;
+            max-width: 40vw;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 风格改动：超大名字，滚动时产生位移 */
+        .name-title {
+            font-size: clamp(16px, 2.5vw, 36px); /* 改动：与年级字号一致 */
+            font-weight: 900;
+            letter-spacing: 0.2em; /* 改动：增加字间距让三个字在一行 */
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            position: relative;
+            transform-origin: left center;
+            transition: transform 0.3s ease;
+            order: 2; /* 改动：让名字排在后面 */
+            white-space: nowrap; /* 改动：强制一行显示 */
+            color: #FFFFFF; /* 改动：白色 */
+            opacity: 0; /* 改动：初始隐藏 */
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.6s;
+        }
+
+        /* 改动：鼠标悬停时故障效果 */
+        .name-title:hover {
+            animation: glitch-text 0.3s infinite;
+        }
+
+        /* 风格改动：文字错位排列 - 移除垂直偏移让三个字在一行 */
+        .name-title span {
+            display: inline-block;
+        }
+
+        /* 改动：新增 Who am I 大标题样式 */
+        .main-title {
+            font-size: clamp(40px, 7vw, 120px);
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            line-height: 0.85;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            font-family: 'Brush Script MT', 'Lucida Handwriting', 'Edwardian Script ITC', cursive;
+            color: #FFFFFF;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 0.2s;
+        }
+
+        @keyframes whoAmIDisappear {
+            0%   { opacity: 1; transform: translate(-50%, -50%) skewX(0deg); filter: blur(0); }
+            15%  { opacity: 0.9; transform: translate(-50%, calc(-50% - 6px)) skewX(-4deg); filter: blur(1px); }
+            30%  { opacity: 0.7; transform: translate(-50%, calc(-50% + 4px)) skewX(3deg); filter: blur(2px); }
+            50%  { opacity: 0.4; transform: translate(-50%, calc(-50% - 10px)) skewX(-6deg); filter: blur(4px); }
+            70%  { opacity: 0.15; transform: translate(-50%, calc(-50% + 6px)) skewX(4deg); filter: blur(6px); }
+            100% { opacity: 0; transform: translate(-50%, calc(-50% - 20px)) skewX(0deg); filter: blur(12px); }
+        }
+
+        .main-title.disappearing {
+            animation: whoAmIDisappear 0.65s ease forwards;
+        }
+
+        .major-text {
+            font-size: clamp(20px, 3vw, 48px);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            transform: skewX(-3deg); /* 轻微倾斜 */
+            letter-spacing: 0.05em;
+            order: 3; /* 改动：排在名字后面 */
+            transition: transform 0.3s ease;
+            color: #FFFFFF; /* 改动：白色 */
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 1s;
+        }
+
+        /* 改动：鼠标悬停时故障效果 */
+        .major-text:hover {
+            animation: glitch-text 0.3s infinite;
+        }
+
+        .grade-text {
+            font-size: clamp(16px, 2.5vw, 36px);
+            font-weight: 400;
+            margin-bottom: 3rem;
+            opacity: 0.7;
+            order: 4; /* 改动：排在专业后面 */
+            transition: transform 0.3s ease;
+            color: #FFFFFF; /* 改动：白色 */
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 1.4s;
+        }
+
+        /* 改动：鼠标悬停时故障效果 */
+        .grade-text:hover {
+            animation: glitch-text 0.3s infinite;
+        }
+
+        /* 风格改动：简介文字不对齐，锯齿排列 */
+        .bio-text {
+            font-size: clamp(20px, 2.5vw, 40px); /* 改动：放大两个字体 */
+            line-height: 1.6;
+            font-weight: 300;
+            max-width: 600px;
+            order: 5; /* 改动：排在最后 */
+            color: #FFFFFF; /* 改动：白色 */
+        }
+
+        .bio-text p {
+            margin-bottom: 1.5rem;
+            transform: translateX(var(--indent, 0));
+            transition: transform 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* 改动：鼠标悬停时故障效果 */
+        .bio-text p:hover {
+            animation: glitch-text 0.3s infinite;
+        }
+
+        .bio-text p:nth-child(1) {
+            --indent: 0px;
+            animation-delay: 1.8s;
+        }
+        .bio-text p:nth-child(2) {
+            --indent: 40px;
+            animation-delay: 2.2s;
+        }
+
+        /* 风格改动：代表图片超出边界 */
+        .avatar-image {
+            position: absolute;
+            top: 10%;
+            right: -5%;
+            width: 40vw;
+            height: 40vw;
+            max-width: 400px;
+            max-height: 400px;
+            background: #000000; /* 改动：黑色背景 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(80px, 15vw, 200px);
+            transform: rotate(8deg);
+            z-index: 3;
+            border: 4px solid #FFFFFF; /* 改动：白色边框 */
+            box-shadow: -20px 20px 0 #000000; /* 改动：黑色阴影 */
+            transition: transform 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 7.0s;
+            overflow: hidden;
+        }
+
+        .avatar-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-image:hover {
+            transform: rotate(-5deg) scale(1.05); /* 悬停扭曲 */
+        }
+
+        /* 新增：第二张照片样式 */
+        .avatar-image-second {
+            position: absolute;
+            top: calc(10% + 400px + 20px);
+            right: -5%;
+            transform: rotate(-3deg);
+            width: 28vw;
+            height: 40vw;
+            max-width: 280px;
+            max-height: 400px;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            border: 4px solid #FFFFFF;
+            box-shadow: 20px -20px 0 #000000;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 7.6s;
+            overflow: hidden;
+        }
+
+        .avatar-image-second img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .avatar-image-second:hover {
+            transform: rotate(5deg) scale(1.05);
+        }
+
+        /* 新增：picture1 和 picture2 样式 */
+        .picture1-image {
+            position: absolute;
+            top: 52%;
+            left: 50%;
+            transform: rotate(-6deg);
+            width: 55vw;
+            height: 36vw;
+            max-width: 550px;
+            max-height: 360px;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            border: 4px solid #FFFFFF;
+            box-shadow: -12px 12px 0 #000000;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 8.2s;
+            overflow: hidden;
+        }
+
+        .picture1-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .picture1-image:hover {
+            transform: rotate(4deg) scale(1.05);
+        }
+
+        .picture2-image {
+            position: absolute;
+            top: 62%;
+            left: 60%;
+            transform: rotate(5deg);
+            width: 50vw;
+            height: 33vw;
+            max-width: 500px;
+            max-height: 330px;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 4;
+            border: 4px solid #FFFFFF;
+            box-shadow: 12px -12px 0 #000000;
+            transition: transform 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: 8.8s;
+            overflow: hidden;
+        }
+
+        .picture2-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .picture2-image:hover {
+            transform: rotate(-4deg) scale(1.05);
+        }
+
+        /* ========== 区域2：数据可视化（黑白图表 + 故障效果） ========== */
+        .data-section {
+            min-height: 100vh;
+            padding: 10vw 5vw;
+            position: relative;
+        }
+
+        .data-title {
+            font-size: clamp(40px, 7vw, 120px);
+            font-weight: 900;
+            margin-bottom: 5rem;
+            text-align: right;
+            transform: skewY(-2deg);
+        }
+
+        /* 风格改动：图表容器打破网格 */
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            position: relative;
+        }
+
+        .chart-item {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+            padding: 3rem;
+            position: relative;
+            transform: rotate(var(--rotation, 0deg));
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .chart-item:nth-child(1) { --rotation: -1deg; margin-top: 60px; }
+        .chart-item:nth-child(2) { --rotation: 2deg; margin-top: -40px; }
+
+        .chart-item:hover {
+            transform: rotate(0deg) scale(1.02);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+        }
+
+        /* 风格改动：悬停时产生故障偏移 */
+        .chart-item:hover .chart-label {
+            animation: glitch 0.3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(-2px, 2px); }
+            50% { transform: translate(2px, -2px); }
+            75% { transform: translate(-2px, -2px); }
+        }
+
+        /* 改动：新增文字故障动画 */
+        @keyframes glitch-text {
+            0%, 100% {
+                transform: translate(0, 0) skewX(0deg);
+            }
+            25% {
+                transform: translate(-3px, 2px) skewX(-2deg);
+                opacity: 0.8;
+            }
+            50% {
+                transform: translate(3px, -2px) skewX(2deg);
+            }
+            75% {
+                transform: translate(-2px, -3px) skewX(-1deg);
+                opacity: 0.9;
+            }
+        }
+
+        /* 改动：新增依次进入动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chart-label {
+            font-size: clamp(20px, 3vw, 36px);
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        /* 简化的条形图 */
+        .bar-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .bar-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bar-label {
+            font-size: 24px; /* 改动：再放大两个字体 */
+            font-weight: 700;
+            min-width: 120px;
+        }
+
+        .bar-fill {
+            height: 30px;
+            background: #FFFFFF;
+            transition: width 1s ease;
+            position: relative;
+        }
+
+        .bar-fill::after {
+            content: attr(data-value);
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #000000;
+            font-size: 18px; /* 改动：放大两个字体 */
+            font-weight: 700;
+        }
+
+        /* ========== 新增：城市地图区域 ========== */
+        .cities-section {
+            min-height: 100vh;
+            padding: 10vw 5vw;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cities-title {
+            font-size: clamp(40px, 7vw, 120px);
+            font-weight: 900;
+            margin-bottom: 5rem;
+            text-align: center;
+            transform: skewX(-3deg);
+        }
+
+        .map-container {
+            width: 100%;
+            max-width: 900px;
+            height: 700px;
+            position: relative;
+            border: 3px solid #FFFFFF;
+            background: #000000;
+            transform: rotate(-1deg);
+            box-shadow: 20px 20px 0 rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        #chinaMap {
+            width: 100%;
+            height: 100%;
+            display: none;
+        }
+
+        /* 移除连接线样式 */
+        .city-connection {
+            display: none;
+        }
+
+        /* 城市标记点 - 星星样式，极简优雅 */
+        .city-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 10;
+        }
+
+        .city-marker::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 2px;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, #FFFFFF, transparent);
+            opacity: 0.6;
+        }
+
+        .city-marker::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #FFFFFF, transparent);
+            opacity: 0.6;
+        }
+
+        .city-marker.active {
+            opacity: 1;
+            animation: starTwinkle 2s ease-in-out infinite;
+        }
+
+        /* 星星闪烁动画 - 微妙优雅 */
+        @keyframes starTwinkle {
+            0%, 100% {
+                opacity: 0.7;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.3);
+            }
+        }
+
+        /* 城市名称标签 - 优雅字体 */
+        .city-label {
+            position: absolute;
+            color: #FFFFFF;
+            font-size: 25px;
+            font-weight: 400;
+            white-space: nowrap;
+            transform: translate(-50%, -55px);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            letter-spacing: 0.1em;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .city-marker.active + .city-label {
+            opacity: 0.8;
+        }
+
+        /* 北京特殊强调 - 更亮的星 */
+        .city-marker.beijing {
+            width: 40px;
+            height: 40px;
+        }
+
+        .city-marker.beijing::before {
+            height: 120px;
+            opacity: 0.8;
+        }
+
+        .city-marker.beijing::after {
+            width: 120px;
+            opacity: 0.8;
+        }
+
+        .city-label.beijing {
+            font-size: 27px;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: #FFFFFF;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        /* ========== 区域3：交互彩蛋（点击/悬停触发） ========== */
+        .easter-section {
+            min-height: 100vh;
+            padding: 10vw 5vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .easter-container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .easter-title {
+            font-size: clamp(40px, 7vw, 120px);
+            font-weight: 900;
+            margin-bottom: 5rem;
+            transform: skewX(-5deg);
+        }
+
+        /* 风格改动：音乐和剧集区域不对称布局 */
+        .interest-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 改动：音乐区改成两列 */
+            gap: 3rem;
+            position: relative;
+        }
+
+        .interest-block {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+            padding: 3rem;
+            position: relative;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .interest-block:nth-child(1) {
+            transform: translateY(0); /* 改动：取消偏移 */
+        }
+
+        .interest-block:nth-child(2) {
+            transform: translateY(0); /* 改动：取消偏移 */
+        }
+
+        .block-title {
+            font-size: clamp(24px, 4vw, 48px);
+            font-weight: 900;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        /* 音乐区 */
+        .artists-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .artist-item {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: #FFFFFF;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            font-size: 24px; /* 改动：放大两个字体 */
+            font-weight: 700;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0; /* 改动：初始隐藏，用于依次出现动画 */
+            transform: translateX(-30px);
+        }
+
+        /* 改动：依次出现动画 */
+        .artist-item.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* 风格改动：悬停时变成白底黑字 */
+        .artist-item:hover {
+            background: rgba(255, 255, 255, 0.95);
+            color: #000000;
+            transform: skewX(-2deg);
+            box-shadow: 8px 8px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .artist-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            transition: left 0.3s ease;
+        }
+
+        .artist-item:hover::before {
+            left: 100%;
+        }
+
+        .lyric-display {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: #000000;
+            color: #FFFFFF;
+            font-size: 22px; /* 改动：放大两个字体 */
+            font-style: italic;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            display: none; /* 改动：隐藏歌词显示区 */
+        }
+
+        .lyric-display.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 剧集区 */
+        .shows-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .show-card {
+            padding: 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .show-card:hover {
+            background: rgba(255, 255, 255, 0.95);
+            color: #000000;
+            transform: translateX(10px);
+        }
+
+        .show-title {
+            font-size: 22px; /* 改动：放大两个字体 */
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .show-progress {
+            font-size: 18px; /* 改动：放大两个字体 */
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .show-card.clicked .show-progress {
+            opacity: 1;
+            max-height: 100px;
+        }
+
+        /* ========== 新增：第四页剧集和留言区域 ========== */
+        .shows-section {
+            min-height: 100vh;
+            padding: 10vw 5vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .shows-container {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .shows-title {
+            font-size: clamp(40px, 7vw, 120px);
+            font-weight: 900;
+            margin-bottom: 5rem;
+            transform: skewX(-5deg);
+        }
+
+        .shows-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 8rem;
+        }
+
+        .shows-block {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+            padding: 3rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        /* ========== 新增：留言功能 ========== */
+        .message-section {
+            margin-top: 5rem;
+        }
+
+        .message-title {
+            font-size: clamp(30px, 5vw, 80px);
+            font-weight: 900;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .message-form {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+            padding: 3rem;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            margin-bottom: 3rem;
+            transform: rotate(-1deg);
+            backdrop-filter: blur(10px);
+        }
+
+        .message-input {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 18px;
+            font-family: '华文楷书', 'STKaiti', '楷体', 'KaiTi', serif;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            color: #FFFFFF;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .message-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 1.5rem;
+            font-size: 18px;
+            font-family: '华文楷书', 'STKaiti', '楷体', 'KaiTi', serif;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            color: #FFFFFF;
+            resize: vertical;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .message-textarea:focus {
+            outline: none;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .message-submit {
+            padding: 1.5rem 3rem;
+            font-size: 20px;
+            font-weight: 900;
+            font-family: '华文楷书', 'STKaiti', '楷体', 'KaiTi', serif;
+            background: rgba(255, 255, 255, 0.9);
+            color: #000000;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .message-submit:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+            transform: skewX(-3deg);
+            box-shadow: 8px 8px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .messages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .message-item {
+            background: rgba(255, 255, 255, 0.15);
+            color: #FFFFFF;
+            padding: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transform: rotate(var(--rotation, 0deg));
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .message-item:nth-child(odd) { --rotation: 0.5deg; }
+        .message-item:nth-child(even) { --rotation: -0.5deg; }
+
+        .message-item:hover {
+            transform: rotate(0deg) scale(1.01);
+            box-shadow: 6px 6px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .message-author {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            color: #FFFFFF;
+        }
+
+        .message-content {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #EEEEEE;
+        }
+
+        .message-time {
+            font-size: 14px;
+            color: #AAAAAA;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* ========== 剧集图片轮播 ========== */
+        .shows-carousel {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 8rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 1.5rem;
+            animation: carouselScroll 55s linear infinite;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .carousel-slide {
+            flex-shrink: 0;
+            width: 240px;
+            height: 340px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: #111;
+            transition: border-color 0.3s ease;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide:hover {
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .carousel-slide:hover img {
+            transform: scale(1.05);
+        }
+
+        @keyframes carouselScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .shows-carousel:hover .carousel-track {
+            animation-play-state: paused;
+        }
+
+        /* ========== 响应式 ========== */
+        @media (max-width: 768px) {
+            .avatar-image {
+                width: 60vw;
+                height: 60vw;
+                right: -10%;
+                top: 5%;
+            }
+
+            .charts-container,
+            .interest-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .chart-item:nth-child(1),
+            .chart-item:nth-child(2),
+            .interest-block:nth-child(1),
+            .interest-block:nth-child(2) {
+                margin-top: 0;
+                transform: rotate(0deg) translateY(0);
+            }
+        }
+
+        /* ========== 打字机文字 ========== */
+        .typewriter-text {
+            font-size: clamp(19px, 2.3vw, 29px);
+            line-height: 2;
+            font-weight: 400;
+            max-width: 500px;
+            color: #FFFFFF;
+            margin-top: 11vh;
+            margin-left: 0;
+            letter-spacing: 0.05em;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .typewriter-text.visible {
+            opacity: 1;
+        }
+
+        .typewriter-text p {
+            margin: 0;
+            min-height: 1.5em;
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: #FFFFFF;
+            margin-left: 3px;
+            vertical-align: text-bottom;
+            animation: cursorBlink 0.65s step-end infinite;
+        }
+
+        @keyframes cursorBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ========== 风格改动：滚动触发的动态效果 ========== */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== AI意识背景Canvas ========== -->
+    <canvas id="aiBackground"></canvas>
+
+    <!-- ========== 风格改动：改为滚动式长页面结构 ========== -->
+    <div class="scroll-container">
+
+        <!-- ========== 区域1：自我介绍（保留原内容，应用新风格） ========== -->
+        <section class="intro-section">
+            <!-- 风格改动：图片超出边界，可旋转 -->
+            <div class="avatar-image">
+                <img src="https://raw.githubusercontent.com/lzx-del/temp1/main/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260605090511_22_3.jpg" alt="个人照片">
+            </div>
+
+            <!-- 新增：第二张照片 -->
+            <div class="avatar-image-second">
+                <img src="https://raw.githubusercontent.com/lzx-del/temp1/main/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20260605090510_21_3.jpg" alt="个人照片2">
+            </div>
+
+            <!-- 新增：picture1 和 picture2 -->
+            <div class="picture1-image">
+                <img src="https://raw.githubusercontent.com/lzx-del/temp1/main/picture1.jpg" alt="picture1">
+            </div>
+            <div class="picture2-image">
+                <img src="https://raw.githubusercontent.com/lzx-del/temp1/main/picture2.jpg" alt="picture2">
+            </div>
+
+            <div class="intro-content">
+                <!-- WHO AM I 标题 -->
+                <h1 class="main-title" id="mainTitle">WHO AM I</h1>
+                <!-- 打字机文字，三行 -->
+                <div class="typewriter-text" id="typewriterBlock">
+                    <p id="tw-line1"></p>
+                    <p id="tw-line2"></p>
+                    <p id="tw-line3"><span id="tw-cursor" class="typewriter-cursor"></span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 区域2：数据可视化（真实个人数据图表） ========== -->
+        <section class="data-section scroll-reveal">
+            <h2 class="data-title">DATA / 数据</h2>
+
+            <!-- 风格改动：打破网格的图表布局 -->
+            <div class="charts-container">
+                <div class="chart-item">
+                    <h3 class="chart-label">兴趣爱好</h3>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <span class="bar-label">听歌</span>
+                            <div class="bar-fill" data-value="85%" style="width: 0;"></div>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">旅行</span>
+                            <div class="bar-fill" data-value="70%" style="width: 0;"></div>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">追剧</span>
+                            <div class="bar-fill" data-value="75%" style="width: 0;"></div>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">跑步</span>
+                            <div class="bar-fill" data-value="90%" style="width: 0;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-item">
+                    <h3 class="chart-label">时间分配</h3>
+                    <div class="bar-chart">
+                        <div class="bar-item">
+                            <span class="bar-label">写代码</span>
+                            <div class="bar-fill" data-value="20%" style="width: 0;"></div>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">找Bug</span>
+                            <div class="bar-fill" data-value="30%" style="width: 0;"></div>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">学习</span>
+                            <div class="bar-fill" data-value="40%" style="width: 0;"></div>
+                        </div>
+                        <div class="bar-item">
+                            <span class="bar-label">摸鱼</span>
+                            <div class="bar-fill" data-value="10%" style="width: 0;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 新增：我去过的城市区域 ========== -->
+        <section class="cities-section scroll-reveal">
+            <h2 class="cities-title">CITIES / 我去过的城市</h2>
+
+            <div class="map-container">
+                <svg id="chinaMap" viewBox="0 0 900 700" xmlns="http://www.w3.org/2000/svg">
+                    <!-- 改动：详细的中国地图，包含主要省份轮廓和标注 -->
+
+                    <!-- 新疆 -->
+                    <path d="M 50 150 L 150 100 L 250 120 L 280 180 L 250 240 L 200 280 L 150 260 L 100 220 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="150" y="190" font-size="12" fill="#666" text-anchor="middle">新疆</text>
+
+                    <!-- 西藏 -->
+                    <path d="M 100 300 L 200 280 L 280 320 L 260 400 L 180 420 L 120 380 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="190" y="360" font-size="12" fill="#666" text-anchor="middle">西藏</text>
+
+                    <!-- 青海 -->
+                    <path d="M 200 280 L 280 240 L 320 260 L 300 320 L 280 320 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="270" y="290" font-size="12" fill="#666" text-anchor="middle">青海</text>
+
+                    <!-- 甘肃 -->
+                    <path d="M 280 180 L 350 160 L 380 200 L 360 240 L 320 260 L 280 240 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="330" y="210" font-size="12" fill="#666" text-anchor="middle">甘肃</text>
+
+                    <!-- 内蒙古 -->
+                    <path d="M 350 80 L 500 70 L 600 90 L 620 130 L 580 160 L 480 150 L 380 140 L 350 120 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="480" y="120" font-size="12" fill="#666" text-anchor="middle">内蒙古</text>
+
+                    <!-- 黑龙江 -->
+                    <path d="M 650 50 L 750 60 L 780 100 L 760 140 L 700 150 L 650 120 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="710" y="110" font-size="12" fill="#666" text-anchor="middle">黑龙江</text>
+
+                    <!-- 吉林 -->
+                    <path d="M 700 150 L 760 140 L 770 180 L 740 200 L 700 190 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="730" y="175" font-size="12" fill="#666" text-anchor="middle">吉林</text>
+
+                    <!-- 辽宁 -->
+                    <path d="M 680 190 L 740 200 L 740 240 L 700 250 L 670 230 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="705" y="225" font-size="12" fill="#666" text-anchor="middle">辽宁</text>
+
+                    <!-- 北京/天津/河北 -->
+                    <path d="M 580 160 L 650 170 L 670 210 L 640 240 L 580 230 L 560 190 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="610" y="205" font-size="12" fill="#666" text-anchor="middle">河北</text>
+
+                    <!-- 山西 -->
+                    <path d="M 520 200 L 580 190 L 580 240 L 540 260 L 510 240 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="545" y="230" font-size="12" fill="#666" text-anchor="middle">山西</text>
+
+                    <!-- 陕西 -->
+                    <path d="M 460 240 L 520 230 L 540 280 L 500 320 L 460 300 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="495" y="275" font-size="12" fill="#666" text-anchor="middle">陕西</text>
+
+                    <!-- 河南 -->
+                    <path d="M 540 260 L 600 260 L 610 310 L 570 330 L 540 310 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="570" y="295" font-size="12" fill="#666" text-anchor="middle">河南</text>
+
+                    <!-- 山东 -->
+                    <path d="M 640 240 L 710 250 L 720 290 L 680 310 L 640 300 L 620 270 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="670" y="280" font-size="12" fill="#666" text-anchor="middle">山东</text>
+
+                    <!-- 江苏 -->
+                    <path d="M 680 310 L 740 320 L 750 360 L 710 370 L 680 350 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="710" y="345" font-size="12" fill="#666" text-anchor="middle">江苏</text>
+
+                    <!-- 安徽 -->
+                    <path d="M 640 330 L 690 340 L 690 380 L 650 390 L 630 360 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="660" y="365" font-size="12" fill="#666" text-anchor="middle">安徽</text>
+
+                    <!-- 浙江 -->
+                    <path d="M 710 370 L 760 380 L 760 420 L 720 430 L 700 410 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="730" y="405" font-size="12" fill="#666" text-anchor="middle">浙江</text>
+
+                    <!-- 上海 -->
+                    <circle cx="760" cy="360" r="8" fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="780" y="365" font-size="11" fill="#666">上海</text>
+
+                    <!-- 湖北 -->
+                    <path d="M 570 330 L 630 340 L 630 380 L 580 390 L 560 360 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="600" y="365" font-size="12" fill="#666" text-anchor="middle">湖北</text>
+
+                    <!-- 湖南 -->
+                    <path d="M 580 390 L 640 400 L 640 440 L 590 450 L 570 420 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="610" y="425" font-size="12" fill="#666" text-anchor="middle">湖南</text>
+
+                    <!-- 江西 -->
+                    <path d="M 650 390 L 700 400 L 700 440 L 660 450 L 640 420 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="670" y="425" font-size="12" fill="#666" text-anchor="middle">江西</text>
+
+                    <!-- 福建 -->
+                    <path d="M 700 440 L 740 450 L 740 490 L 710 500 L 690 480 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="715" y="475" font-size="12" fill="#666" text-anchor="middle">福建</text>
+
+                    <!-- 广东 -->
+                    <path d="M 590 480 L 690 490 L 700 530 L 640 540 L 580 520 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="640" y="515" font-size="12" fill="#666" text-anchor="middle">广东</text>
+
+                    <!-- 广西 -->
+                    <path d="M 500 480 L 580 490 L 580 530 L 520 540 L 490 510 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="540" y="515" font-size="12" fill="#666" text-anchor="middle">广西</text>
+
+                    <!-- 云南 -->
+                    <path d="M 360 420 L 460 430 L 470 490 L 400 510 L 350 480 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="410" y="470" font-size="12" fill="#666" text-anchor="middle">云南</text>
+
+                    <!-- 贵州 -->
+                    <path d="M 470 390 L 550 400 L 550 450 L 490 460 L 470 430 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="510" y="430" font-size="12" fill="#666" text-anchor="middle">贵州</text>
+
+                    <!-- 四川 -->
+                    <path d="M 360 320 L 460 330 L 480 380 L 420 400 L 360 380 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="420" y="365" font-size="12" fill="#666" text-anchor="middle">四川</text>
+
+                    <!-- 重庆 -->
+                    <path d="M 480 360 L 520 365 L 520 390 L 490 395 L 480 380 Z"
+                          fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="500" y="380" font-size="11" fill="#666" text-anchor="middle">重庆</text>
+
+                    <!-- 海南岛 -->
+                    <ellipse cx="600" cy="600" rx="40" ry="25" fill="none" stroke="#333333" stroke-width="1.5"/>
+                    <text x="600" y="605" font-size="12" fill="#666" text-anchor="middle">海南</text>
+                </svg>
+
+                <!-- 城市标记点 -->
+                <div class="city-marker beijing" data-city="北京" style="left: 25%; top: 12%;"></div>
+                <div class="city-label beijing" style="left: 25%; top: 12%;">BEIJING</div>
+
+                <div class="city-marker" data-city="上海" style="left: 88%; top: 55%;"></div>
+                <div class="city-label" style="left: 88%; top: 55%;">上海</div>
+
+                <div class="city-marker" data-city="无锡" style="left: 82%; top: 50%;"></div>
+                <div class="city-label" style="left: 82%; top: 50%;">无锡</div>
+
+                <div class="city-marker" data-city="南京" style="left: 73%; top: 47%;"></div>
+                <div class="city-label" style="left: 73%; top: 47%;">南京</div>
+
+                <div class="city-marker" data-city="开封" style="left: 50%; top: 35%;"></div>
+                <div class="city-label" style="left: 50%; top: 35%;">开封</div>
+
+                <div class="city-marker" data-city="洛阳" style="left: 35%; top: 42%;"></div>
+                <div class="city-label" style="left: 35%; top: 42%;">洛阳</div>
+
+                <div class="city-marker" data-city="武功山" style="left: 68%; top: 78%;"></div>
+                <div class="city-label" style="left: 68%; top: 78%;">武功山</div>
+
+                <div class="city-marker" data-city="杭州" style="left: 82%; top: 65%;"></div>
+                <div class="city-label" style="left: 82%; top: 65%;">杭州</div>
+            </div>
+        </section>
+
+        <!-- ========== 区域3：交互彩蛋（保留音乐和剧集，应用新风格） ========== -->
+        <section class="easter-section scroll-reveal">
+            <div class="easter-container">
+                <h2 class="easter-title">MUSIC / 音乐</h2>
+
+                <!-- 风格改动：音乐区改成两列 -->
+                <div class="interest-grid">
+                    <!-- 第一列 -->
+                    <div class="interest-block">
+                        <div class="artists-list">
+                            <div class="artist-item">最佳歌手</div>
+                            <div class="artist-item">犯贱</div>
+                            <div class="artist-item">starships</div>
+                            <div class="artist-item">Hope</div>
+                            <div class="artist-item">Videogames</div>
+                            <div class="artist-item">Running up That Hill</div>
+                            <div class="artist-item">We Found Love</div>
+                        </div>
+                    </div>
+
+                    <!-- 第二列 -->
+                    <div class="interest-block">
+                        <div class="artists-list">
+                            <div class="artist-item">爱人错过</div>
+                            <div class="artist-item">唯一</div>
+                            <div class="artist-item">带我去找夜生活</div>
+                            <div class="artist-item">Pound The Alarm</div>
+                            <div class="artist-item">给你一瓶魔法药水</div>
+                            <div class="artist-item">一点</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 新增：第四页剧集和留言 ========== -->
+        <section class="shows-section scroll-reveal">
+            <div class="shows-container">
+                <h2 class="shows-title">SHOWS / 剧集</h2>
+
+                <div class="shows-carousel">
+                    <div class="carousel-track">
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic1.jpg" alt="剧集图片1" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic2.jpg" alt="剧集图片2" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic3.jpg" alt="剧集图片3" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic4.jpg" alt="剧集图片4" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic5.jpg" alt="剧集图片5" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic6.jpg" alt="剧集图片6" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic7.jpg" alt="剧集图片7" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic8.jpg" alt="剧集图片8" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic9.jpg" alt="剧集图片9" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic1.jpg" alt="剧集图片1" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic2.jpg" alt="剧集图片2" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic3.jpg" alt="剧集图片3" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic4.jpg" alt="剧集图片4" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic5.jpg" alt="剧集图片5" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic6.jpg" alt="剧集图片6" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic7.jpg" alt="剧集图片7" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic8.jpg" alt="剧集图片8" loading="lazy"></div>
+                        <div class="carousel-slide"><img src="https://raw.githubusercontent.com/lzx-del/temp1/main/pic9.jpg" alt="剧集图片9" loading="lazy"></div>
+                    </div>
+                </div>
+
+                <!-- 留言功能 -->
+                <div class="message-section">
+                    <h3 class="message-title">LEAVE A MESSAGE / 留言板</h3>
+
+                    <div class="message-form">
+                        <input type="text"
+                               class="message-input"
+                               id="messageAuthor"
+                               placeholder="你的名字...">
+                        <textarea class="message-textarea"
+                                  id="messageContent"
+                                  placeholder="写下你想说的话..."></textarea>
+                        <button class="message-submit" id="submitMessage">提交留言</button>
+                    </div>
+
+                    <div class="messages-list" id="messagesList">
+                        <!-- 留言将显示在这里 -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ========== 风格改动：新的JavaScript交互逻辑 ========== -->
+    <script>
+        // ========== AI背景动画 ==========
+        const canvas = document.getElementById('aiBackground');
+        const ctx = canvas.getContext('2d');
+
+        // 设置canvas大小
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // 神经网络节点
+        class Node {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.radius = Math.random() * 2 + 1;
+                this.glow = Math.random() * 0.5 + 0.5;
+                this.glowDirection = Math.random() > 0.5 ? 1 : -1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // 边界反弹
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                // 发光效果
+                this.glow += this.glowDirection * 0.01;
+                if (this.glow > 1 || this.glow < 0.3) this.glowDirection *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.glow})`;
+                ctx.fill();
+
+                // 柔和的光晕
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 4);
+                gradient.addColorStop(0, `rgba(255, 255, 255, ${this.glow * 0.3})`);
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius * 4, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // 几何结构
+        class GeometricShape {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 150 + 100;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.002;
+                this.opacity = Math.random() * 0.15 + 0.05;
+                this.type = Math.floor(Math.random() * 3); // 0: cube, 1: pyramid, 2: octahedron
+            }
+
+            update() {
+                this.rotation += this.rotationSpeed;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.lineWidth = 1.5;
+
+                if (this.type === 0) {
+                    // 立方体线框
+                    this.drawCube();
+                } else if (this.type === 1) {
+                    // 金字塔线框
+                    this.drawPyramid();
+                } else {
+                    // 八面体线框
+                    this.drawOctahedron();
+                }
+
+                ctx.restore();
+            }
+
+            drawCube() {
+                const s = this.size / 2;
+                const d = s * 0.5; // 深度偏移
+
+                // 前面
+                ctx.beginPath();
+                ctx.moveTo(-s, -s);
+                ctx.lineTo(s, -s);
+                ctx.lineTo(s, s);
+                ctx.lineTo(-s, s);
+                ctx.closePath();
+                ctx.stroke();
+
+                // 后面
+                ctx.beginPath();
+                ctx.moveTo(-s + d, -s + d);
+                ctx.lineTo(s + d, -s + d);
+                ctx.lineTo(s + d, s + d);
+                ctx.lineTo(-s + d, s + d);
+                ctx.closePath();
+                ctx.stroke();
+
+                // 连接线
+                ctx.beginPath();
+                ctx.moveTo(-s, -s);
+                ctx.lineTo(-s + d, -s + d);
+                ctx.moveTo(s, -s);
+                ctx.lineTo(s + d, -s + d);
+                ctx.moveTo(s, s);
+                ctx.lineTo(s + d, s + d);
+                ctx.moveTo(-s, s);
+                ctx.lineTo(-s + d, s + d);
+                ctx.stroke();
+            }
+
+            drawPyramid() {
+                const s = this.size / 2;
+                const h = s * 1.5;
+
+                ctx.beginPath();
+                ctx.moveTo(0, -h);
+                ctx.lineTo(-s, s);
+                ctx.lineTo(s, s);
+                ctx.closePath();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(0, -h);
+                ctx.lineTo(0, s);
+                ctx.stroke();
+            }
+
+            drawOctahedron() {
+                const s = this.size / 2;
+
+                ctx.beginPath();
+                ctx.moveTo(0, -s);
+                ctx.lineTo(s, 0);
+                ctx.lineTo(0, s);
+                ctx.lineTo(-s, 0);
+                ctx.closePath();
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(-s, 0);
+                ctx.lineTo(0, -s / 2);
+                ctx.lineTo(s, 0);
+                ctx.lineTo(0, s / 2);
+                ctx.closePath();
+                ctx.stroke();
+            }
+        }
+
+        // 数字智能流
+        class DataStream {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height - canvas.height;
+                this.speed = Math.random() * 1 + 0.5;
+                this.opacity = Math.random() * 0.3 + 0.2;
+                this.length = Math.random() * 100 + 50;
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height + this.length) {
+                    this.y = -this.length;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                const gradient = ctx.createLinearGradient(this.x, this.y, this.x, this.y + this.length);
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
+                gradient.addColorStop(0.5, `rgba(255, 255, 255, ${this.opacity})`);
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x, this.y + this.length);
+                ctx.stroke();
+            }
+        }
+
+        // 初始化元素
+        const nodes = [];
+        const shapes = [];
+        const streams = [];
+
+        // 创建稀疏的节点 (降低密度)
+        for (let i = 0; i < 30; i++) {
+            nodes.push(new Node(Math.random() * canvas.width, Math.random() * canvas.height));
+        }
+
+        // 创建几何结构 (优雅的线框)
+        for (let i = 0; i < 5; i++) {
+            shapes.push(new GeometricShape());
+        }
+
+        // 创建数据流
+        for (let i = 0; i < 8; i++) {
+            streams.push(new DataStream());
+        }
+
+        // 动画循环
+        function animate() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 绘制几何结构
+            shapes.forEach(shape => {
+                shape.update();
+                shape.draw();
+            });
+
+            // 绘制数据流
+            streams.forEach(stream => {
+                stream.update();
+                stream.draw();
+            });
+
+            // 绘制节点和连接
+            nodes.forEach((node, i) => {
+                node.update();
+                node.draw();
+
+                // 连接附近的节点
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[j].x - node.x;
+                    const dy = nodes[j].y - node.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(node.x, node.y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        const opacity = (1 - distance / 150) * 0.2;
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // ========== WHO AM I 消失 + 打字机效果 ==========
+        const mainTitle = document.getElementById('mainTitle');
+        const typewriterBlock = document.getElementById('typewriterBlock');
+        const twLines = [
+            { el: document.getElementById('tw-line1'), text: '李泽雄，2024级智能感知工程在读本科生。' },
+            { el: document.getElementById('tw-line2'), text: 'MBTI: IMSB' },
+            { el: document.getElementById('tw-line3'), text: '男女混血，全职啃老的普通大学生' },
+        ];
+        const twCursor = document.getElementById('tw-cursor');
+        const glitchChars = '█▓▒░#@&%$!?';
+
+        function typeLineByLine(lineIndex, charIndex) {
+            if (lineIndex >= twLines.length) return;
+            const line = twLines[lineIndex];
+            if (charIndex >= line.text.length) {
+                // 当前行打完，移动光标到下一行，短暂停顿后继续
+                line.el.appendChild(twCursor);
+                setTimeout(() => typeLineByLine(lineIndex + 1, 0), 300);
+                return;
+            }
+            const realChar = line.text[charIndex];
+            // 移动光标到当前行末
+            line.el.appendChild(twCursor);
+
+            if (Math.random() < 0.1) {
+                // 故障字符
+                const glitch = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+                const node = document.createTextNode(glitch);
+                line.el.insertBefore(node, twCursor);
+                setTimeout(() => {
+                    line.el.removeChild(node);
+                    line.el.insertBefore(document.createTextNode(realChar), twCursor);
+                    setTimeout(() => typeLineByLine(lineIndex, charIndex + 1), 60 + Math.random() * 60);
+                }, 55);
+            } else {
+                line.el.insertBefore(document.createTextNode(realChar), twCursor);
+                setTimeout(() => typeLineByLine(lineIndex, charIndex + 1), 60 + Math.random() * 60);
+            }
+        }
+
+        // WHO AM I 出现后启动打字机
+        setTimeout(() => {
+            typewriterBlock.classList.add('visible');
+            typeLineByLine(0, 0);
+        }, 1200);
+
+        // ========== 1. 滚动时轻微视差 ==========
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            lastScrollY = window.scrollY;
+        });
+
+        // ========== 2. 滚动显示动画 ==========
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // 触发图表动画
+                    if (entry.target.classList.contains('data-section')) {
+                        animateCharts();
+                    }
+
+                    // 触发城市地图动画
+                    if (entry.target.classList.contains('cities-section')) {
+                        animateCities();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-reveal').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ========== 3. 图表动画（数据可视化区） ==========
+        function animateCharts() {
+            const bars = document.querySelectorAll('.bar-fill');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    const targetWidth = bar.getAttribute('data-value');
+                    bar.style.width = targetWidth;
+                }, index * 100);
+            });
+        }
+
+        // ========== 4. 音乐区交互彩蛋（点击显示歌词） ==========
+        const artistItems = document.querySelectorAll('.artist-item');
+        const lyricDisplay = document.getElementById('lyricDisplay');
+
+        // 改动：音乐区依次出现动画（两列都生效）
+        const musicObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 获取当前区域内的所有歌曲项
+                    const items = entry.target.querySelectorAll('.artist-item');
+                    items.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('show');
+                        }, index * 150); // 每个歌曲间隔150ms
+                    });
+                    musicObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.3 });
+
+        // 观察所有音乐块
+        const musicBlocks = document.querySelectorAll('.interest-block');
+        musicBlocks.forEach(block => {
+            if (block.querySelector('.artists-list')) {
+                musicObserver.observe(block);
+            }
+        });
+
+        // 移除原有的歌词点击功能
+        /*
+        artistItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const lyric = item.getAttribute('data-lyric');
+                lyricDisplay.textContent = lyric;
+                lyricDisplay.classList.add('show');
+
+                // 移除其他选中状态
+                artistItems.forEach(i => i.style.background = '#000000');
+                item.style.background = '#333333';
+            });
+        });
+        */
+
+        // ========== 5. 剧集区交互彩蛋（点击显示进度） ==========
+        const showCards = document.querySelectorAll('.show-card');
+
+        showCards.forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('clicked');
+            });
+        });
+
+        // ========== 6. 鼠标移动视差效果 ==========
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+            const offsetX = (mouseX - 0.5) * 10;
+            const offsetY = (mouseY - 0.5) * 10;
+            // 可用于未来扩展视差
+            void offsetX; void offsetY;
+        });
+
+        // ========== 7. 城市星图依次点亮动画 ==========
+        function animateCities() {
+            const cityMarkers = document.querySelectorAll('.city-marker');
+            const delays = [0, 400, 800, 1200, 1600, 2000, 2400, 2800];
+
+            cityMarkers.forEach((marker, index) => {
+                setTimeout(() => {
+                    marker.classList.add('active');
+                }, delays[index]);
+            });
+        }
+
+        // ========== 8. 留言功能 ==========
+        const submitButton = document.getElementById('submitMessage');
+        const messagesList = document.getElementById('messagesList');
+        const authorInput = document.getElementById('messageAuthor');
+        const contentInput = document.getElementById('messageContent');
+
+        // 从 localStorage 加载留言
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+            messagesList.innerHTML = '';
+            messages.forEach(msg => {
+                addMessageToDOM(msg.author, msg.content, msg.time);
+            });
+        }
+
+        // 添加留言到DOM
+        function addMessageToDOM(author, content, time) {
+            const messageItem = document.createElement('div');
+            messageItem.className = 'message-item';
+            messageItem.innerHTML = `
+                <div class="message-author">${author}</div>
+                <div class="message-content">${content}</div>
+                <div class="message-time">${time}</div>
+            `;
+            messagesList.appendChild(messageItem);
+        }
+
+        // 提交留言
+        submitButton.addEventListener('click', () => {
+            const author = authorInput.value.trim();
+            const content = contentInput.value.trim();
+
+            if (!author || !content) {
+                alert('请填写名字和留言内容！');
+                return;
+            }
+
+            const time = new Date().toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            // 保存到 localStorage
+            const messages = JSON.parse(localStorage.getItem('messages') || '[]');
+            messages.unshift({ author, content, time });
+            localStorage.setItem('messages', JSON.stringify(messages));
+
+            // 添加到页面
+            addMessageToDOM(author, content, time);
+
+            // 清空输入框
+            authorInput.value = '';
+            contentInput.value = '';
+
+            // 滚动到留言列表
+            messagesList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+
+        // 页面加载时加载留言
+        loadMessages();
+    </script>
+</body>
+</html>
